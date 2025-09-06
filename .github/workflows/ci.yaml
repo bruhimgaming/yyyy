@@ -1,0 +1,45 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      # Defaults
+      - opened
+      - synchronize
+      - reopened
+      # Draft->ready
+      - ready_for_review
+      # Edit the title or top comment
+      - edited
+
+jobs:
+  precommit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: griceturrble/precommit-checks-action@v1
+
+  # test:
+  #   name: Python Tests
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       python-version:
+  #         - "3.12"
+  #         - "3.13"
+  #   steps:
+  #     - name: Checkout the code
+  #       uses: actions/checkout@v5
+
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@v5
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+
+  #     - name: Install project
+  #       run: uv sync --all-groups
+
+  #     - name: Run tests
+  #       run: uv run pytest
